@@ -9,8 +9,8 @@ class Customer(models.Model):
     email = models.CharField(max_length=50, default='')
     password = models.CharField(max_length=100)
     address = models.TextField(max_length=100, default='')
-    extra = models.CharField(max_length=100,null=True)
-    customer = models.ForeignKey('Wallet', related_name='customer', on_delete=models.CASCADE, blank=False)
+    extra = models.CharField(max_length=100, null=True)
+    wallet = models.ForeignKey('Wallet', related_name='customer', on_delete=models.CASCADE, blank=False, default='')
 
     def __str__(self):
         return self.name
@@ -124,6 +124,7 @@ class OrderItems(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, blank=False)
     quantity = models.IntegerField(default=1)
     created = models.DateTimeField(auto_now_add=True)
+
     # prescription = models.ImageField(null=True)
 
     def __str__(self):

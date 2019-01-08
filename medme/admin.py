@@ -16,7 +16,6 @@ class OrderAdmin(admin.ModelAdmin):
     # def order_items(self, obj):
     #     return "\n".join([str(item.name)+", " for item in obj.items.all()])
 
-
     def order_user(self, obj):
         return obj.customer.name
     order_user.short_description = 'Customer Name'

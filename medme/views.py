@@ -1,5 +1,4 @@
 from _ast import arg
-
 import rest_framework
 # Create your views here.
 from rest_framework.decorators import api_view
@@ -9,6 +8,7 @@ from medme.models import Medicine, Customer, Order, Drug
 from medme.serializers import MedicineSerializer, OrderSerializer, CustomerSerializer, OrderByUserSerializer, \
     DrugSerializer
 from rest_framework import mixins, viewsets, filters
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 @api_view(['GET'])
@@ -34,19 +34,18 @@ def api_root(request, format=None):
 #     def post(self, request, *args, **kwargs):
 #         return self.create(request, *args, **kwargs)
 
-
 class MedicineViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = MedicineSerializer
     queryset = Medicine.objects.all()
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('^name', '^company', '^generic_name')
+    filter_backends = (filters.SearchFilter, DjangoFilterBackend,)
+    search_fields = ('^name', '^company', '^generic_name',)
 
 
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     filter_backends = (filters.SearchFilter,)
-    search_fields = ('^customer__name', '^customer__phone', '^items__name')
+    search_fields = ('^customer__name', '^customer__phone', '^items__name',)
 
 
 class CustomerViewSet(viewsets.ReadOnlyModelViewSet):
@@ -55,6 +54,8 @@ class CustomerViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
+    filter_backends = (filters.SearchFilter, DjangoFilterBackend,)
+    filter_fields = ('name', 'email')
 
 
 class OrderByUserViewSet(viewsets.ModelViewSet):

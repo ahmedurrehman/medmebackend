@@ -38,7 +38,7 @@ class MedicineViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = MedicineSerializer
     queryset = Medicine.objects.all()
     filter_backends = (filters.SearchFilter, DjangoFilterBackend,)
-    search_fields = ('^name', '^company', '^generic_name',)
+    search_fields = ('^name', '^company__name', '^generic_name',)
 
 
 class OrderViewSet(viewsets.ModelViewSet):
